@@ -1,7 +1,5 @@
 FROM node:latest
-
 WORKDIR /app
-
 COPY solution.js .
+CMD ["node", "solution.js"]
 
-CMD ["node", "solution.js"]  # Ejecutar "solution.js" con Node.js

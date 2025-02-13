@@ -1,7 +1,4 @@
 FROM python:latest
-
 WORKDIR /app
-
 COPY solution.py .
-
-CMD ["python", "solution.py"]  # Ejecutar "solution.py" con Python
+CMD ["python", "solution.py"]
