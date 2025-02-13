@@ -1,0 +1,14 @@
+# Usa una imagen base de Rust
+FROM rust:latest
+
+# Establece el directorio de trabajo
+WORKDIR /app
+
+# Copia el archivo fuente
+COPY solution.rs .
+
+# Compila el código
+RUN rustc solution.rs -o solution
+
+# Define el comando para ejecutar el programa
+CMD ["./solution"]
