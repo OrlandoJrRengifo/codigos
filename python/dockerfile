@@ -1,5 +1,6 @@
 FROM python:3.9-slim
 WORKDIR /app
-COPY solucion.py .
+COPY solution.py .
 COPY output.txt .
-CMD ["python", "solucion.py"]
+CMD ["python", "solution.py"]
+
