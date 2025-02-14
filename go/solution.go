@@ -3,60 +3,45 @@ package main
 import (
 	"fmt"
 	"math"
+	"os"
+	"time"
 )
 
-func isPrime(num int) bool {
-	if num < 2 {
+func isPrime(n int) bool {
+	if n < 2 {
 		return false
 	}
-	for i := 2; i <= int(math.Sqrt(float64(num))); i++ {
-		if num%i == 0 {
+	limit := int(math.Sqrt(float64(n)))
+	for i := 2; i <= limit; i++ {
+		if n%i == 0 {
 			return false
 		}
 	}
 	return true
 }
 
-func spiralMatrix(n int) [][]int {
-	matrix := make([][]int, n)
-	for i := range matrix {
-		matrix[i] = make([]int, n)
-	}
-	dx, dy := 0, 1
-	x, y := 0, 0
-	for i := 1; i <= n*n; i++ {
-		matrix[x][y] = i
-		if matrix[(x+dx+n)%n][(y+dy+n)%n] != 0 {
-			dx, dy = dy, -dx
-		}
-		x += dx
-		y += dy
-	}
-	return matrix
-}
-
-func addPrimeNumbers(matrix [][]int) int64 {
-	var sum int64
-	for _, row := range matrix {
-		for _, num := range row {
+func main() {
+	N := 1000
+	start := time.Now()
+	var sum int64 = 0
+	for i := 0; i < N; i++ {
+		for j := 0; j < N; j++ {
+			num := i*N + j + 1
 			if isPrime(num) {
 				sum += int64(num)
 			}
 		}
 	}
-	return sum
-}
-
-func main() {
-
-	start := time.now()
-
-	N := 1000
-	createSpiralMatrix := spiralMatrix(N)
-
-	suma := addPrimeNumbers(createSpiralMatrix)
-
-	executionTime := time.Since(start).Milliseconds()
-	fmt.Printf(executionTime + "ms\n")
-
+	elapsed := time.Since(start).Milliseconds()
+	
+	// Guardar el resultado en output.txt
+	f, err := os.Create("output.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	fmt.Fprintf(f, "%d", sum)
+	
+	// Imprimir únicamente el tiempo de ejecución
+	fmt.Printf("%d ms", elapsed)
 }

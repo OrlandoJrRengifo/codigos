@@ -1,5 +1,5 @@
-FROM node:latest
+FROM node:14-alpine
 WORKDIR /app
 COPY solution.js .
+COPY output.txt .
 CMD ["node", "solution.js"]
-

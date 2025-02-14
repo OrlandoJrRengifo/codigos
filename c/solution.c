@@ -1,66 +1,42 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
-#include <stdbool.h>
+#include <time.h>
 
-bool isPrime(int num)
-{
-    if (num < 2)
-        return false;
-    for (int i = 2; i <= sqrt(num); i++)
-    {
-        if (num % i == 0)
-            return false;
+#define N 1000
+
+int isPrime(int n) {
+    if(n < 2)
+        return 0;
+    int limit = (int)sqrt(n);
+    for (int i = 2; i <= limit; i++) {
+        if(n % i == 0)
+            return 0;
     }
-    return true;
+    return 1;
 }
 
-void spiralMatrix(int n, int matrix[n][n])
-{
-    int dx = 0, dy = 1;
-    int x = 0, y = 0;
-    for (int i = 1; i <= n * n; i++)
-    {
-        matrix[x][y] = i;
-        if (matrix[(x + dx + n) % n][(y + dy + n) % n] != 0)
-        {
-            int temp = dx;
-            dx = dy;
-            dy = -temp;
-        }
-        x += dx;
-        y += dy;
-    }
-}
-
-long long addPrimeNumbers(int n, int matrix[n][n])
-{
-    long long sum = 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            if (isPrime(matrix[i][j]))
-            {
-                sum += matrix[i][j];
-            }
-        }
-    }
-    return sum;
-}
-
-int main()
-{
+int main() {
     clock_t start = clock();
-
-    int N = 1000;
-    int matrix[N][N];
-    spiralMatrix(N, matrix);
-
-    long long suma = addPrimeNumbers(N, matrix);
-
+    long long sum = 0;
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            int num = i * N + j + 1;
+            if(isPrime(num))
+                sum += num;
+        }
+    }
     clock_t end = clock();
-    double execution_time = (double)(end - start) / CLOCKS_PER_SEC * 1000;
-    printf(execution_time + "ms\n");
-
+    double elapsed_ms = ((double)(end - start)) * 1000.0 / CLOCKS_PER_SEC;
+    
+    // Guardar el resultado en output.txt
+    FILE *fp = fopen("output.txt", "w");
+    if(fp) {
+        fprintf(fp, "%lld", sum);
+        fclose(fp);
+    }
+    
+    // Imprimir únicamente el tiempo de ejecución
+    printf("%.0f ms", elapsed_ms);
     return 0;
 }

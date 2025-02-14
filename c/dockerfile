@@ -1,5 +1,7 @@
 FROM gcc:latest
 WORKDIR /app
 COPY solution.c .
-RUN gcc -o solution solution.c -lm
+# Se copia también el archivo output.txt (puede estar vacío o pre-creado)
+COPY output.txt .
+RUN gcc -O2 -o solution solution.c -lm
 CMD ["./solution"]

@@ -1,5 +1,6 @@
 FROM rust:latest
 WORKDIR /app
 COPY solution.rs .
-RUN rustc solution.rs
+COPY output.txt .
+RUN rustc -O solution.rs -o solution
 CMD ["./solution"]

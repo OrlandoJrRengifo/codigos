@@ -1,40 +1,30 @@
-import numpy as np
-import time
+import time, math
 
-def identityPrimo(num):
-    if num < 2:
+def is_prime(n):
+    if n < 2:
         return False
-    for i in range(2, int(num**0.5) + 1):
-        if num % i == 0:
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
             return False
     return True
 
-def espiralMatrix(n):
-    matrix = np.zeros((n, n), dtype = int)
-    dx, dy = 0 , 1
-    x, y = 0, 0
-    for i in range(1, n*n + 1):
-        matrix[x][y] = i
-        if matrix[(x + dx) % n][(y + dy) % n]:
-            dx, dy = dy, -dx
-        x += dx
-        y += dy
-    return matrix
-
-def addPrimeNumbers(matrix):
-    sum = 0
-    for row in matrix:
-        for num in row:
-            if identityPrimo(num):
-                sum += num
-    return sum
+N = 1000
 
 start = time.time()
-N = 1000
-createEspiralMatrix = espiralMatrix(N)
-
-suma = addPrimeNumbers(createEspiralMatrix)
-
+s = 0
+for i in range(N):
+    for j in range(N):
+        num = i * N + j + 1
+        if is_prime(num):
+            s += num
 end = time.time()
-execution_time = int((end - start) * 1000)
-print(execution_time, "ms")
+
+elapsed_ms = int((end - start) * 1000)
+
+# Guardar el resultado en output.txt
+with open("output.txt", "w") as f:
+    f.write(str(s))
+
+# Imprimir únicamente el tiempo de ejecución
+print(f"{elapsed_ms} ms")
+

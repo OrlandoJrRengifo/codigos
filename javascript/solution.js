@@ -1,44 +1,30 @@
-function isPrime(num) {
-    if (num < 2) return false;
-    for (let i = 2; i <= Math.sqrt(num); i++) {
-        if (num % i === 0) return false;
-    }
-    return true;
-}
+const fs = require('fs');
 
-function spiralMatrix(n) {
-    let matrix = Array.from({ length: n }, () => Array(n).fill(0));
-    let dx = 0, dy = 1;
-    let x = 0, y = 0;
-    for (let i = 1; i <= n * n; i++) {
-        matrix[x][y] = i;
-        if (matrix[(x + dx + n) % n][(y + dy + n) % n]) {
-            [dx, dy] = [dy, -dx];
-        }
-        x += dx;
-        y += dy;
-    }
-    return matrix;
+function isPrime(n) {
+  if(n < 2) return false;
+  const limit = Math.floor(Math.sqrt(n));
+  for (let i = 2; i <= limit; i++) {
+    if(n % i === 0) return false;
+  }
+  return true;
 }
-
-function addPrimeNumbers(matrix) {
-    let sum = 0;
-    for (let row of matrix) {
-        for (let num of row) {
-            if (isPrime(num)) {
-                sum += num;
-            }
-        }
-    }
-    return sum;
-}
-
-const start = Date.now()
 
 const N = 1000;
+const start = process.hrtime();
+let sum = 0;
+for(let i = 0; i < N; i++){
+  for(let j = 0; j < N; j++){
+    const num = i * N + j + 1;
+    if(isPrime(num)) {
+      sum += num;
+    }
+  }
+}
+const diff = process.hrtime(start);
+const elapsed_ms = Math.round(diff[0] * 1000 + diff[1] / 1e6);
 
-const createSpiralMatrix = spiralMatrix(N);
-const suma = addPrimeNumbers(createSpiralMatrix);
+// Guardar el resultado en output.txt
+fs.writeFileSync("output.txt", sum.toString());
 
-const executionTime = Date.now() - start;
-console.log(executionTime + 'ms');
+// Imprimir únicamente el tiempo de ejecución
+console.log(elapsed_ms + " ms");
